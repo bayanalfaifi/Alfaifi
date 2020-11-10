@@ -1,0 +1,57 @@
+---
+title: "Load Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(tidyverse, tidytext,Alfaifi)
+```
+
+This project will implement the text mining mehods as covered by Julia Silge.
+The book is at [Text Mining with R](https://www.tidytextmining.com/)
+
+Read the original table.
+
+```{r}
+indian_food <- read.csv(here::here("data-raw","indian_food.csv"))
+indian_food %>% head
+
+usethis::use_data(indian_food,overwrite = TRUE)
+```
+
+Create a version of the table with one row per ingredient becuse we want to extract the feature 
+
+```{r}
+ingredients <- indian_food %>% 
+  unnest_tokens(ingredient,ingredients)
+head(ingredients)
+usethis::use_data(ingredients,overwrite = TRUE)
+```
+
+```{r}
+ingr_list <- ingredients %>% 
+  select(ingredient) %>% 
+  distinct() %>% 
+  pull(ingredient)
+usethis::use_data(ingr_list, overwrite = TRUE)
+```
+
+```{r}
+
+```
+
+```{r}
+flavor_profile <- ingredients %>%
+  select(flavor_profile) %>% 
+  filter(flavor_profile != "-1" ) %>% 
+  distinct() %>% 
+  pull(flavor_profile)
+usethis::use_data(flavor_profile, overwrite = TRUE)
+
+```
+
+
+
+
+

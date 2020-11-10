@@ -1,0 +1,136 @@
+---
+title: "Recipe Preparation and Cook Time Calculator"
+output:
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(gtsummary,ggplotly,tidyverse,tidytext)
+```
+
+## Primary Aim
+
+The aim of this project is  to create a function that calculates the time of preparation and cooking based on the ingredients that the user will enter. The interface will be an `RShiny` app that
+prompts the use for the ingredients.  The app will then estimate preparation and cooking time.
+
+I will use the data set below to find the relationship between ingredients and
+preparation time an cooking time.  Once this relationship has been modeled, 
+the app will be able to calculate the prep and cook time for the ingredients the user
+enters.
+
+I will use tidytext to analyze the recipe data.  Then I will use tidymodels to get a mathematical 
+model of the relationships between the ingredients listed and the outcome times.
+
+The user interface will be written using `RShiny`.
+
+
+I will use the data described below to fit a model predicting preparation and cooking time.
+The package tidytext will be used to create the features.  The package tidymodels will 
+be used to create the model and fit the model on the ingredients the user enters.
+
+### The Data
+
+The data is consisting of 255 recipes from India which each recipes contains some variables which are (name of the Recipes,Ingredients,Diet,Preparation time, cooking time,Flavor, Course,State(the origin of the food),region(location)).
+
+## Proof of Concept
+
+The steps to complete this analysis require:
+
+* Find a training data set (`indian_food.csv`)
+* Explore the training data set to find good features and descriptions (given below)
+* Use `tidytext` to create features from the ingredients listed in the training data set.
+* Use the features created and tidymodels to fit a model.
+* test the model
+* write an `RShiny` interface that askes the user for a list of ingredient
+* Take the ingredients given and then use the fitted model to calculate the prep and cooking time for that recepe.
+
+### Data Exploration
+
+
+This is the training data set.
+
+```{r}
+d <- read.csv(here::here("data-raw","indian_food.csv"))
+d %>% head
+```
+
+Summary of the data.  what's in the data set. 
+
+```{r}
+d %>% 
+  select(-name, -ingredients) %>% 
+  tbl_summary()
+```
+
+count the NO. of recopies per state 
+
+```{r}
+d %>% 
+  count(state) %>% 
+  arrange(desc(n))
+```
+plot the relationship btw perp time and cook time by course 
+
+```{r}
+d %>% 
+  ggplot(aes(x=prep_time, y = cook_time))+
+  geom_point()+
+  geom_smooth()+
+  facet_wrap(~course)
+```
+the average of prep time by state 
+
+```{r}
+d %>% 
+  
+  ggplot(aes(x = prep_time, y = state))+
+  geom_bar(stat = 'summary', fun = mean)
+```
+average prep time by diet 
+```{r}
+d %>% 
+  ggplot(aes(x = prep_time, y = diet))+
+  geom_bar(stat = "summary", fun = mean)
+```
+
+
+```{r}
+d %>% 
+  ggplot(aes(x = prep_time, y = course))+
+  geom_bar(stat = "summary", fun.y = "mean")
+```
+
+### Feature Extraction
+
+Start of feature extraction froom the ingredients list.
+This shows how individual ingredients can be extracted to features.
+
+```{r}
+d %>% 
+  select(name,prep_time, cook_time, ingredients) %>% 
+  mutate(ind = 1) %>% 
+  separate_rows(ingredients, sep = ',') %>% 
+  pivot_wider(names_from = 'ingredients', values_from = "ind") %>% 
+  mutate(across(is_double, ~if_else(is.na(.x),0,1)))
+```
+
+
+
+## Challenges and To-Do:
+* in some point I will have to create  more data sets of recipes to make the modal better 
+* what I will do if the user enters ingredient that are not in the data set.
+* what other info besides ingredient should the user require to enter
+* To fix the error that I will encounter in my code.
+* Finding online cook book with more recipes to add them in my training data.
+
+## To Do
+
+* add data set (10\14)
+*extract features using tidytext (10\21)
+*Fit the models using tidymodals(10\28)
+*create Rshiny interface(11\5)
+*users testing the package (11\10)
+* publish the package in the internet (11\13)
+

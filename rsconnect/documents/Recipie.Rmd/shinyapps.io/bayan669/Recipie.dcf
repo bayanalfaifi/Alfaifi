@@ -1,0 +1,12 @@
+name: Recipie
+title: Recipie
+username:
+account: bayan669
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3198429
+bundleId: 3839956
+url: https://bayan669.shinyapps.io/Recipie/
+when: 1604966063.78659
+asMultiple: TRUE
+asStatic: FALSE

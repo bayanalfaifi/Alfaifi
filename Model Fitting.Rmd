@@ -1,0 +1,180 @@
+---
+title: "Model Fitting"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(Alfaifi, tidyverse, tidymodels)
+```
+
+
+Model fitting will follow the `tidymodels` workflow as detailed in
+
+[Tidy Models Book](https://www.tmwr.org/)
+and 
+[Tidy Models](https://www.tidymodels.org)
+
+
+
+```{r}
+set.seed(123)
+splits      <- initial_split(f)
+
+f_other <- training(splits)
+f_test  <- testing(splits)
+
+
+```
+
+```{r}
+f_train %>% ا
+```
+
+
+Create Validation data set
+```{r}
+
+set.seed(234)
+val_set <- validation_split(f_other, prop = 0.80)
+val_set
+```
+```{r}
+lr_mod <- 
+  linear_reg(penalty = 1, mixture = 0) %>% 
+  set_engine("glmnet")
+```
+
+```{r}
+usethis::use_data(lr_mod,overwrite = TRUE )
+```
+
+
+```{r}
+lr_recipe <- 
+  recipe(cook_time ~ ., data = f_other) %>% 
+  recipes::remove_role(prep_time, old_role = 'predictor') %>% 
+  step_zv(all_predictors()) %>% 
+  step_dummy(flavor_profile) 
+lr_recipe %>% 
+  summary
+```
+```{r}
+usethis::use_data(lr_recipe, overwrite = TRUE)
+```
+
+```{r}
+lr_recipe %>% 
+  prep %>% 
+  juice %>% 
+  head
+```
+```{r}
+cook_time_wflow <- 
+  workflow() %>% 
+  add_model(lr_mod) %>% 
+  add_recipe(lr_recipe)
+cook_time_wflow
+```
+
+
+```{r}
+cook_time_fit <- 
+  cook_time_wflow %>% 
+  fit(data = f_other)
+summary(cook_time_fit)
+```
+
+```{r}
+
+cook_time_fit %>% 
+  pull_workflow_fit() %>% 
+  tidy()
+```
+```{r}
+usethis::use_data(cook_time_fit, overwrite = TRUE)
+```
+
+```{r}
+predict(cook_time_fit, new_data = f_test) %>% 
+  bind_cols(f_test)
+```
+
+
+```{r}
+parsnip::linear_reg()
+```
+
+```{r}
+
+lm_mod <- 
+  linear_reg() %>% 
+  set_engine("lm")
+```
+
+```{r}
+f$sugar
+```
+
+
+```{r}
+f$prep_time
+```
+
+```{r}
+lm_fit <- 
+  lm_mod %>% 
+  fit(prep_time ~ flour + sugar +milk, data = f)
+lm_fit
+```
+
+```{r}
+usethis::use_data(lm_fit)
+```
+
+```{r}
+tidy(lm_fit)
+```
+```{r}
+new_points <- f %>% 
+  select(flour, sugar, milk) %>% 
+  distinct
+new_points
+```
+
+
+```{r}
+mean_pred <- predict(lm_fit, new_data = new_points)
+mean_pred
+```
+```{r}
+conf_int_pred <- predict(lm_fit, 
+                         new_data = new_points, 
+                         type = "conf_int")
+conf_int_pred
+#> # A tibble: 3 x 2
+#>   .pred_lower .pred_upper
+#>         <dbl>       <dbl>
+#> 1      0.0555      0.0729
+#> 2      0.0499      0.0678
+#> 3      0.0870      0.105
+
+# Now combine: 
+plot_data <- 
+  new_points %>% 
+  bind_cols(mean_pred) %>% 
+  bind_cols(conf_int_pred)
+
+# and plot:
+ggplot(plot_data, aes(x = milk)) + 
+  geom_point(aes(y = .pred)) + 
+  geom_errorbar(aes(ymin = .pred_lower, 
+                    ymax = .pred_upper),
+                width = .2, position = 'dodge') + 
+  labs(y = "urchin size")
+```
+
+
+
+
+

@@ -1,0 +1,50 @@
+---
+title: "project steps"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+The steps to complete this analysis require:
+
+## Load Data.
+
+raw data
+: `indian_food.csv`
+
+main datase
+:  indian_food
+
+data set of ingredients
+:  ingredients
+:  tidy data (one raw per ingredient)
+
+list of ingrediensts
+:  ingr_list
+
+## Feature Engineering
+
+Use `tidytext` to create features from the ingredients listed in the training data set.
+
+f
+:  Dataset with one column per ingredient
+
+
+## Model Fitting
+
+Use the features created and tidymodels to fit a model.
+
+## Model Testing
+
+
+## RShiny
+
+write an `RShiny` interface that askes the user for a list of ingredient
+
+Take the ingredients given and then use the fitted model to calculate the prep and cooking time for that recipe.
+
+## Put Everthing in a Package
+
+Build all the package components.
+

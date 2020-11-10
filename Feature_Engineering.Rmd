@@ -1,0 +1,26 @@
+---
+title: "Feature Engineering"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(tidyverse, tidytext,Alfaifi)
+```
+
+feature extraction 
+Create a tabel with one column per ingredient.  Used for prediction of prep time and cook time.
+
+```{r}
+f <- ingredients %>% 
+  mutate(id=1L) %>% 
+  select(id, ingredient,name,everything()) %>% 
+  distinct() %>% 
+  pivot_wider(names_from = "ingredient", values_from = "id") %>%
+  mutate(across(all_of(ingr_list),function(.x){as.integer(!is.na(.x))})) %>% 
+  select(prep_time, cook_time, flavor_profile, all_of(ingr_list)) 
+head(f)
+usethis::use_data(f,overwrite = TRUE)
+```
+
+

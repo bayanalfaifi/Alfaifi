@@ -1,0 +1,33 @@
+---
+title: "test rshiny code"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+ingr <- c('sugar','flour')
+```
+
+```{r}
+flav <- 'sour'
+```
+
+```{r}
+user_selection <- 
+ingredients %>% 
+  mutate(id=1L) %>% 
+  select(id, ingredient) %>% 
+  distinct() %>% 
+  mutate(value = as.integer(ingredient %in% ingr)) %>%
+  mutate( flavor_profile = flav) %>% 
+  pivot_wider(names_from = "ingredient", values_from = "value") 
+user_selection
+```
+
+```{r}
+predict(cook_time_fit, new_data = user_selection)
+```
+
+

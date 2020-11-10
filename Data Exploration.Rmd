@@ -1,0 +1,75 @@
+---
+title: "Data Exploration "
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(tidyverse, tidytext,wordcloud,Alfaifi)
+```
+
+This project will implement the text mining mehods as covered by Julia Silge.
+The book is at [Text Mining with R](https://www.tidytextmining.com/)
+
+Read the original table.
+
+```{r}
+indian_food %>% 
+  head
+```
+
+```{r}
+ingredients %>% 
+  head()
+```
+
+```{r}
+ingredients %>% 
+  select(diet, name) %>% 
+  distinct %>% 
+  count(diet)
+```
+
+```{r, fig.height=10}
+ingredients %>% 
+  filter(flavor_profile == "sweet") %>% 
+  ggplot(aes(x = ingredient, y = cook_time)) +
+  geom_bar(stat = "summary", fun.y = "mean")
+```
+
+```{r}
+ingredients %>% 
+  count(ingredient) %>%
+  with(wordcloud(ingredient, n, max.words = 100))
+```
+
+```{r}
+ingredients %>% 
+  filter(flavor_profile == "sweet") %>% 
+  count(ingredient) %>%
+  with(wordcloud(ingredient, n, max.words = 100))
+```
+
+```{r}
+ingredients %>% 
+  filter(diet == "non vegetarian") %>% 
+  count(ingredient) %>%
+  with(wordcloud(ingredient, n, max.words = 100))
+
+```
+
+
+```{r}
+ingredients %>% 
+  filter(diet != "non vegetarian") %>% 
+  count(ingredient) %>%
+  with(wordcloud(ingredient, n, max.words = 100))
+
+```
+
+
+
+
+
+
+

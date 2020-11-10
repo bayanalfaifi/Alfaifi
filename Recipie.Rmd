@@ -1,0 +1,79 @@
+---
+title: "Recipie Engineering"
+output: flexdashboard::flex_dashboard
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(shiny, tidymodels, tidyverse, Alfaifi)
+```
+
+Column {.sidebar}
+---------------------------------------------------------------
+```{r input1, echo=FALSE}
+selectInput(
+  "ingr",
+  "Please select ingredients",
+  ingr_list,
+  selected = "sugar",
+  multiple = TRUE,
+  selectize = TRUE,
+  width = NULL,
+  size = NULL
+)
+
+```
+
+
+```{r input2, echo=FALSE}
+selectInput(
+  "flav",
+  "Please select flavor",
+  flavor_profile,
+  selected = "sweet",
+  multiple = FALSE,
+  selectize = TRUE,
+  width = NULL,
+  size = NULL
+)
+
+```
+
+
+Column {.tabset}
+-------------------------------------
+```{r ,echo=FALSE}
+user_selection <- 
+  reactive({
+    ingredients %>%
+      mutate(id=1L) %>% 
+      select(id, ingredient) %>% 
+      distinct() %>% 
+      mutate(value = as.integer(ingredient %in% input$ingr)) %>%
+      mutate( flavor_profile = input$flav) %>% 
+      pivot_wider(names_from = "ingredient", values_from = "value") 
+  })
+```  
+
+
+
+```{r, echo=FALSE}
+results <-  
+  reactive ({
+    predict(cook_time_fit, new_data = user_selection())
+}) 
+#in here we put  the reaction function to the code to let it avtivate when the users enter thier ingrediants 
+
+```
+   
+   
+### Cook Time  
+
+```{r, echo=FALSE}
+renderText({
+  as.character(results())
+})
+  #in here we put the render to display the result for cook time 
+```
+
