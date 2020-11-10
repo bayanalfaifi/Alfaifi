@@ -2,11 +2,39 @@
 title: "Recipie Engineering"
 output: flexdashboard::flex_dashboard
 runtime: shiny
+resource_files:
+- data/lm_fit.rda
+- data/f.rda
+- data/cook_time_fit.rda
+- data/flavor_profile.rda
+- data/lr_recipe.rda
+- data/indian_food.rda
+- data/ingr_list.rda
+- data/ingredients.rda
 ---
 
 ```{r setup, include=FALSE}
+#remotes::install_github("bayanalfaifi/Alfaifi")
 knitr::opts_chunk$set(echo = TRUE)
-pacman::p_load(shiny, tidymodels, tidyverse, Alfaifi)
+#pacman::p_load(shiny, tidymodels, tidyverse, Alfaifi)
+library(shiny)
+library(tidymodels)
+library(tidyverse)
+library(glmnet)
+#pacman::p_load(shiny, tidymodels, tidyverse)
+```
+
+
+```{r, include=FALSE}
+load("data/cook_time_fit.rda")
+load('data/f.rda')
+load('data/flavor_profile.rda')
+load('data/indian_food.rda')
+load('data/ingr_list.rda')
+load('data/ingredients.rda')
+load('data/lm_fit.rda')
+load('data/lr_mod.rda')
+load('data/lr_recipe.rda')
 ```
 
 Column {.sidebar}

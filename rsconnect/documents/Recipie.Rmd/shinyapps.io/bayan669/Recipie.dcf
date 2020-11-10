@@ -5,8 +5,9 @@ account: bayan669
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3198429
-bundleId: 3839956
+bundleId: 3840229
 url: https://bayan669.shinyapps.io/Recipie/
-when: 1604966063.78659
+when: 1604970764.11587
 asMultiple: TRUE
 asStatic: FALSE
+ignoredFiles: Data Exploration.Rmd|Feature_Engineering.Rmd|Load Data.Rmd|Model Fitting.Rmd|Project Steps.Rmd|proposal-Bayan.Rmd|Test R shiny.Rmd|tweets.Rmd
