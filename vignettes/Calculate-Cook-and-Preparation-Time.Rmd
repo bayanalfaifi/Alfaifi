@@ -1,0 +1,153 @@
+---
+title: "Calculate-Cook-and-Preparation-Time"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Calculate-Cook-and-Preparation-Time}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setupm }
+pacman::p_load(tidymodels,tidyverse,Alfaifi)
+```
+
+
+## Introduction and motivations:
+
+In matter of having a successful restaurant it should has a renewable dishes, Chefs always have to have multiple dishes that could be done in a short time, and serve the customers in a perfect few time. To do so, I create a package that would calculate the cook time and preparation time by inserting the ingredients of the new dishes that the chefs would estimate its time.The functions are easy to be used by any Chefes  around the world to predict the time of dishes they want and making sure that has a reasonable time to be finished and served to the customer.Customers prefer restaurants that bring the food fresh and in short time so, this is another reason for why  I create that functions.In anther word, that would help restaurants owners to have the customer's satisfaction and make them more welling to come again to the restaurant.
+
+
+
+## Package content:
+
+In This package, I provide an app that will estimate the cook and preparation time by given a choice of ingredients by users. The user must supply a choice of ingredient an classify the dish as sweet, spicy, bitter or sour to have better predictions.
+
+It is available for people who do not want to use the coding part :).
+
+
+There are three main functions which are:
+
+prepare_data
+:  Create a single observation based on the user's selections
+
+cook_time
+:  Using the prepared data set, and a fit model, calculates the cook time.
+
+prep_time
+:  Using the prepared data set, and a fit model, calculates the preparation time
+
+rec_time
+:  A gadget that prompts the user for recipe information, then calculates 
+   preparation and cook time.
+
+
+
+
+
+In the "Alfaifi" package, there is a flavor profile that users must shoes one of them to complete their code predictions 
+```{r}
+Alfaifi::flavor_profile
+```
+
+
+as can be seen here, a data set called "ingr_list"  has most of the popular ingredients in India, and this list will be used every time the chef wants to predict the time of his/her dishes
+```{r}
+Alfaifi::ingr_list[1:10]
+```
+
+## Example 1
+
+First :
+In this example, a chef wants to estimate how much time will take to prepare a dish that contains this ingredients (milk','potato','tomato',"chili) and he wants  to not exceed more than 45 minutes.
+Using this function (prepare_data)in "Alfaifi" package ,he will insert the ingredients in the arguments and follow that is to choose the flavor of his dish.
+
+now we finish prepare the data to do the next step .
+```{r}
+
+
+ingredients_choice <- 
+  Alfaifi::prepare_data(.selected_ingredients = c('milk','potato','tomato',"chilli"),
+               .flavor_profile  = "spicy")
+ingredients_choice
+
+
+```
+Second :
+using Alfaifi package we will use the preparation time function (prep_time) and pip it with the prepare data to estimate the time.as you can see, it will take approximately 36 minutes to prepare the dish 
+```{r}
+
+
+ingredients_choice %>% 
+  Alfaifi::prep_time()
+```
+
+
+
+last thing :
+the same thing will be done here and call the function cook_time to forecast the cooking time. 
+
+```{r}
+
+
+ingredients_choice %>% 
+  Alfaifi::cook_time()
+```
+## Example 2 
+
+```{r}
+
+
+ingredients_choice <- 
+  Alfaifi::prepare_data(.selected_ingredients = c('onions','beans','olive',"fish","sugar"),
+               .flavor_profile  = "sweet")
+ingredients_choice
+
+
+```
+
+
+
+```{r}
+
+
+ingredients_choice %>% 
+  Alfaifi::prep_time()
+```
+
+
+
+
+```{r}
+
+
+ingredients_choice %>% 
+  Alfaifi::cook_time()
+```
+## Gadet `rec_time`
+
+The gadget can be started by this command
+
+```{r, eval=FALSE}
+# no run
+# Run the gadget rec_time
+ingredients %>% rec_time
+```
+
+## Future Work and Plans;
+
+This package could be enhanced by adding more data set of food and recipes.This will make the prediction time more better and accurate.Therefore, the future plan is to create more data sets that have different kind of recipes to add them in this package.In this way we could avoid  errors that could be occur when users insert any ingredients that are not in the dataset. Also currently users can only choose from ingredients also present in the data set.
+
+
+
+
+
+
+
+

@@ -59,6 +59,26 @@ lr_recipe <-
 lr_recipe %>% 
   summary
 ```
+
+
+
+```{r}
+lr_prp_recipe <- 
+  recipe(prep_time ~ ., data = f_other) %>% 
+  recipes::remove_role(cook_time, old_role = 'predictor') %>% 
+  step_zv(all_predictors()) %>% 
+  step_dummy(flavor_profile) 
+lr_prp_recipe %>% 
+  summary
+```
+
+
+
+```{r}
+usethis::use_data(lr_prp_recipe, overwrite = TRUE)
+```
+
+
 ```{r}
 usethis::use_data(lr_recipe, overwrite = TRUE)
 ```
@@ -77,6 +97,16 @@ cook_time_wflow <-
 cook_time_wflow
 ```
 
+```{r}
+prp_time_wflow <- 
+  workflow() %>% 
+  add_model(lr_mod) %>% 
+  add_recipe(lr_prp_recipe)
+prp_time_wflow
+```
+
+
+
 
 ```{r}
 cook_time_fit <- 
@@ -85,15 +115,40 @@ cook_time_fit <-
 summary(cook_time_fit)
 ```
 
+
+```{r}
+prp_time_fit <- 
+  prp_time_wflow %>% 
+  fit(data = f_other)
+summary(prp_time_fit)
+```
+
 ```{r}
 
 cook_time_fit %>% 
   pull_workflow_fit() %>% 
   tidy()
 ```
+
+
+```{r}
+
+prp_time_fit %>% 
+  pull_workflow_fit() %>% 
+  tidy()
+```
+
+
+
 ```{r}
 usethis::use_data(cook_time_fit, overwrite = TRUE)
 ```
+
+```{r}
+usethis::use_data(prp_time_fit, overwrite = TRUE)
+```
+
+
 
 ```{r}
 predict(cook_time_fit, new_data = f_test) %>% 
@@ -102,8 +157,11 @@ predict(cook_time_fit, new_data = f_test) %>%
 
 
 ```{r}
-parsnip::linear_reg()
+predict(prp_time_fit, new_data = f_test) %>% 
+  bind_cols(f_test)
 ```
+
+
 
 ```{r}
 

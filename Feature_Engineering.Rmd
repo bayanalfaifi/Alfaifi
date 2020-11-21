@@ -9,7 +9,7 @@ pacman::p_load(tidyverse, tidytext,Alfaifi)
 ```
 
 feature extraction 
-Create a tabel with one column per ingredient.  Used for prediction of prep time and cook time.
+Create a table with one column per ingredient.  Used for prediction of prep time and cook time.
 
 ```{r}
 f <- ingredients %>% 

@@ -27,14 +27,15 @@ library(glmnet)
 
 ```{r, include=FALSE}
 load("data/cook_time_fit.rda")
+load("data/prp_time_fit.rda")
 load('data/f.rda')
 load('data/flavor_profile.rda')
 load('data/indian_food.rda')
 load('data/ingr_list.rda')
 load('data/ingredients.rda')
-load('data/lm_fit.rda')
-load('data/lr_mod.rda')
-load('data/lr_recipe.rda')
+#load('data/lm_fit.rda')
+#load('data/lr_mod.rda')
+#load('data/lr_recipe.rda')
 ```
 
 Column {.sidebar}
@@ -87,11 +88,11 @@ user_selection <-
 
 
 ```{r, echo=FALSE}
-results <-  
+results_cook_time <-  
   reactive ({
     predict(cook_time_fit, new_data = user_selection())
 }) 
-#in here we put  the reaction function to the code to let it avtivate when the users enter thier ingrediants 
+#in here we put  the reaction function to the code to let it activate when the users enter their ingrediants 
 
 ```
    
@@ -100,8 +101,28 @@ results <-
 
 ```{r, echo=FALSE}
 renderText({
-  as.character(results())
+  as.character(results_cook_time())
 })
   #in here we put the render to display the result for cook time 
 ```
 
+
+
+```{r, echo=FALSE}
+results_prep_time <-  
+  reactive ({
+    predict(prp_time_fit, new_data = user_selection())
+}) 
+#in here we put  the reaction function to the code to let it activate when the users enter their ingrediants 
+
+```
+   
+   
+### prep Time  
+
+```{r, echo=FALSE}
+renderText({
+  as.character(results_prep_time())
+})
+  #in here we put the render to display the result for cook time 
+```

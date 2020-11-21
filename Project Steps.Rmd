@@ -40,7 +40,7 @@ Use the features created and tidymodels to fit a model.
 
 ## RShiny
 
-write an `RShiny` interface that askes the user for a list of ingredient
+write an `RShiny` interface that asks the user for a list of ingredient
 
 Take the ingredients given and then use the fitted model to calculate the prep and cooking time for that recipe.
 

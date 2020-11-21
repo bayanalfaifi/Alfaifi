@@ -1,0 +1,51 @@
+---
+title: "Functions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This app will estimate the cook and preparation time give a choice of ingredients.
+
+The user must supply a choice of ingredient an classify the dish as 
+sweet, spicy, bitter or sour.
+
+There are three functions.
+
+prepare_data
+:  Create a single observation based on the user's selctions
+
+cook_time
+:  Using the prepared data set, and a fit model, calculates the cook time.
+
+prep_time
+:  Using the prepared data set, and a fit model, calculates the preparation time
+
+```{r}
+
+
+ingredients_choice <- 
+  ingredients %>% 
+  prepare_data(.ingredients = c('milk','potato','tomato',"chilli"),
+               .flavor = "spicy")
+ingredients_choice
+
+flavor_profile
+```
+
+```{r}
+
+
+ingredients_choice %>% 
+  prep_time
+```
+
+```{r}
+
+ingredients_choice %>% 
+  cook_time
+```
+
+

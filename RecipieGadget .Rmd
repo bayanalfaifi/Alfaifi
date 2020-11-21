@@ -1,0 +1,25 @@
+---
+title: "Recipie Gadget"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+pacman::p_load(shiny,miniUI, tidymodels, tidyverse,Alfaifi)
+```
+
+
+```{r}
+
+
+
+
+ingredients %>% rec_time
+```
+```{r}
+usethis::use_r('rec_time')
+```
+
+
+
+

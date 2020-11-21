@@ -1,0 +1,24 @@
+---
+title: "Build Tar Ball"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+remotes::install_local(build_vignettes = TRUE, force = TRUE)
+```
+
+```{r}
+# Display the vignette
+vignette('Calculate-Cook-and-Preparation-Time')
+```
+```{r}
+install.packages("Desktop/Alfaifi_0.1.0.tgz", repos = NULL)
+```
+
+
