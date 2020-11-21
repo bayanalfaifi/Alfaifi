@@ -4,7 +4,7 @@ Title: What the Package Does (Title Case)
 Version: 0.1.0
 Author: Bayan Alfaifi
 Maintainer: Bayan Alfaifi <balfaifi@iu.edu>
-Description: 
+Description: This project is to calculate the cook time and prepartion time.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -20,4 +20,5 @@ Imports:
     magrittr,
     recipes,
     glmnet,
-    stringr
+    stringr,
+    pacman
