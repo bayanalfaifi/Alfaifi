@@ -10,15 +10,10 @@ pacman::p_load(shiny,miniUI, tidymodels, tidyverse,Alfaifi)
 
 
 ```{r}
-
-
-
-
+# Run the gadget rec_time
 ingredients %>% rec_time
 ```
-```{r}
-usethis::use_r('rec_time')
-```
+
 
 
 

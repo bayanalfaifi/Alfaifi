@@ -22,18 +22,14 @@ The goal of Alfaifi is to ...
 
 ## Installation
 
-You can install the released version of Alfaifi from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
-install.packages("Alfaifi")
-```
+Install the  development version from [GitHub](https://github.com/) with:
 
-And the development version from [GitHub](https://github.com/) with:
-
-``` r
+```{r}
 # install.packages("devtools")
 devtools::install_github("bayanalfaifi/Alfaifi")
 ```
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
@@ -43,18 +39,46 @@ library(Alfaifi)
 ## basic example code
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Install the  development version from [GitHub](https://github.com/) with:
 
-```{r cars}
-summary(cars)
+```{r}
+# install.packages("devtools")
+devtools::install_github("bayanalfaifi/Alfaifi")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+## Introduction and motivations:
 
-You can also embed plots, for example:
+In matter of having a successful restaurant it should has a renewable dishes, Chefs always have to have multiple dishes that could be done in a short time, and serve the customers in a perfect few time. To do so, I create a package that would calculate the cook time and preparation time by inserting the ingredients of the new dishes that the chefs would estimate its time.The functions are easy to be used by any Chefes  around the world to predict the time of dishes they want and making sure that has a reasonable time to be finished and served to the customer.Customers prefer restaurants that bring the food fresh and in short time so, this is another reason for why  I create that functions.In anther word, that would help restaurants owners to have the customer's satisfaction and make them more welling to come again to the restaurant.
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+
+
+## Package content:
+
+In This package, I provide an app that will estimate the cook and preparation time by given a choice of ingredients by users. The user must supply a choice of ingredient an classify the dish as sweet, spicy, bitter or sour to have better predictions.
+
+It is available for people who do not want to use the coding part :).
+
+
+There are three main functions which are:
+
+prepare_data
+:  Create a single observation based on the user's selections
+
+cook_time
+:  Using the prepared data set, and a fit model, calculates the cook time.
+
+prep_time
+:  Using the prepared data set, and a fit model, calculates the preparation time
+
+rec_time
+:  A gadget that prompts the user for recipe information, then calculates 
+   preparation and cook time.
+
+
+
+
+
+In the "Alfaifi" package, there is a flavor profile that users must shoes one of them to complete their code predictions 
+```{r}
+Alfaifi::flavor_profile
 ```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
